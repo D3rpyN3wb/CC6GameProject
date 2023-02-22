@@ -2,6 +2,9 @@
 using NAudio.Wave;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace CC6GameProject
 {
     partial class Game
@@ -691,7 +694,6 @@ namespace CC6GameProject
         void onPlayerDead()
         {
             // ded
-
             //Console.CursorVisible = false;
             Assembly assembly = Assembly.GetExecutingAssembly();
             string resourceName = "CC6GameProject.Resources.GameOver.mp3";
@@ -730,246 +732,262 @@ namespace CC6GameProject
         }
         void HitFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
+            {
+                Random Hrand = new Random();
+            int Hinput = Hrand.Next(1, 3);
+            string hitresourceName = " ";
+            switch (Hinput)
             {
                 case 1:
-                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    hitresourceName = "CC6GameProject.Resources.MM Bump 1.wav";
                     break;
                 case 2:
-                    resourceName = "CC6GameProject.Resources.MM Bump 2.wav";
+                    hitresourceName = "CC6GameProject.Resources.MM Bump 2.wav";
                     break;
                 case 3:
-                    resourceName = "CC6GameProject.Resources.MM Bump 3.wav";
+                    hitresourceName = "CC6GameProject.Resources.MM Bump 3.wav";
                     break;
                 default:
-                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    hitresourceName = "CC6GameProject.Resources.MM Bump 1.wav";
                     break;
             }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            Stream HaudioStream = assembly.GetManifestResourceStream(hitresourceName);
+            WaveFileReader Hreader = new WaveFileReader(HaudioStream);
+            WaveOutEvent HoutputDevice = new WaveOutEvent();
+            WaveChannel32 HvolumeStream = new WaveChannel32(Hreader);
+            HvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+            HoutputDevice.Init(HvolumeStream);
+            HoutputDevice.Play();
+            });
         }
         void CoinFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 4);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
+            {
+                Random Crand = new Random();
+            int Cinput = Crand.Next(1, 4);
+            string coinresourceName = " ";
+            switch (Cinput)
             {
                 case 1:
-                    resourceName = "CC6GameProject.Resources.MM Coin 1.wav";
+                    coinresourceName = "CC6GameProject.Resources.MM Coin 1.wav";
                     break;
                 case 2:
-                    resourceName = "CC6GameProject.Resources.MM Coin 2.wav";
+                    coinresourceName = "CC6GameProject.Resources.MM Coin 2.wav";
                     break;
                 case 3:
-                    resourceName = "CC6GameProject.Resources.MM Coin 3.wav";
+                    coinresourceName = "CC6GameProject.Resources.MM Coin 3.wav";
                     break;
                 case 4:
-                    resourceName = "CC6GameProject.Resources.MM Coin 4.wav";
+                    coinresourceName = "CC6GameProject.Resources.MM Coin 4.wav";
                     break;
                 default:
-                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    coinresourceName = "CC6GameProject.Resources.MM Coin 4.wav";
                     break;
             }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Stream CaudioStream = assembly.GetManifestResourceStream(coinresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader Creader = new WaveFileReader(CaudioStream);
+            WaveOutEvent CoutputDevice = new WaveOutEvent();
+            WaveChannel32 CvolumeStream = new WaveChannel32(Creader);
+            CvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+            CoutputDevice.Init(CvolumeStream);
+            CoutputDevice.Play();
+             });
         }
         void ScrollFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
+            {
+                Random Srand = new Random();
+            int Sinput = Srand.Next(1, 3);
+            string SresourceName = " ";
+            switch (Sinput)
             {
                 case 1:
-                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    SresourceName = "CC6GameProject.Resources.MM Bump 1.wav";
                     break;
                 case 2:
-                    resourceName = "CC6GameProject.Resources.MM Bump 2.wav";
+                    SresourceName = "CC6GameProject.Resources.MM Bump 2.wav";
                     break;
                 case 3:
-                    resourceName = "CC6GameProject.Resources.MM Bump 3.wav";
+                    SresourceName = "CC6GameProject.Resources.MM Bump 3.wav";
                     break;
                 default:
-                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    SresourceName = "CC6GameProject.Resources.MM Bump 1.wav";
                     break;
             }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Stream SaudioStream = assembly.GetManifestResourceStream(SresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader Sreader = new WaveFileReader(SaudioStream);
+            WaveOutEvent SoutputDevice = new WaveOutEvent();
+            WaveChannel32 SvolumeStream = new WaveChannel32(Sreader);
+            SvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+            SoutputDevice.Init(SvolumeStream);
+            SoutputDevice.Play();
+            });
         }
         void LevelFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = "CC6GameProject.Resources.MM 1UP 1.wav";
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Task.Run(() =>
+            {
+                string LresourceName = "CC6GameProject.Resources.MM 1UP 1.wav";
+            Stream LaudioStream = assembly.GetManifestResourceStream(LresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader Lreader = new WaveFileReader(LaudioStream);
+            WaveOutEvent LoutputDevice = new WaveOutEvent();
+            WaveChannel32 LvolumeStream = new WaveChannel32(Lreader);
+            LvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+            LoutputDevice.Init(LvolumeStream);
+            LoutputDevice.Play();
+            });
         }
         void ChestFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
             {
-                case 1:
-                    resourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
-                    break;
-                case 2:
-                    resourceName = "CC6GameProject.Resources.MM Power Up 2.wav";
-                    break;
-                case 3:
-                    resourceName = "CC6GameProject.Resources.MM Power Up 3.wav";
-                    break;
-                case 4:
-                    resourceName = "CC6GameProject.Resources.MM Power Up 4.wav";
-                    break;
-                default:
-                    resourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
-                    break;
-            }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+                Random CHrand = new Random();
+                int CHinput = CHrand.Next(1, 3);
+                string CHresourceName = " ";
+                switch (CHinput)
+                {
+                    case 1:
+                        CHresourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
+                        break;
+                    case 2:
+                        CHresourceName = "CC6GameProject.Resources.MM Power Up 2.wav";
+                        break;
+                    case 3:
+                        CHresourceName = "CC6GameProject.Resources.MM Power Up 3.wav";
+                        break;
+                    case 4:
+                        CHresourceName = "CC6GameProject.Resources.MM Power Up 4.wav";
+                        break;
+                    default:
+                        CHresourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
+                        break;
+                }
+                Stream CHaudioStream = assembly.GetManifestResourceStream(CHresourceName);
 
-            // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+                // Create a WaveStream object from the audio stream
+                WaveFileReader CHreader = new WaveFileReader(CHaudioStream);
+                WaveOutEvent CHoutputDevice = new WaveOutEvent();
+                WaveChannel32 CHvolumeStream = new WaveChannel32(CHreader);
+                CHvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+                CHoutputDevice.Init(CHvolumeStream);
+                CHoutputDevice.Play();
+            });
         }
         void deathFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
+            {
+                Random Drand = new Random();
+            int Dinput = Drand.Next(1, 3);
+            string DresourceName = " ";
+            switch (Dinput)
             {
                 case 1:
-                    resourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
+                    DresourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
                     break;
                 case 2:
-                    resourceName = "CC6GameProject.Resources.MM Boss Fall 2.wav";
+                    DresourceName = "CC6GameProject.Resources.MM Boss Fall 2.wav";
                     break;
                 case 3:
-                    resourceName = "CC6GameProject.Resources.MM Boss Fall 3.wav";
+                    DresourceName = "CC6GameProject.Resources.MM Boss Fall 3.wav";
                     break;
                 case 4:
-                    resourceName = "CC6GameProject.Resources.MM Boss Fall 4.wav";
+                    DresourceName = "CC6GameProject.Resources.MM Boss Fall 4.wav";
                     break;
                 default:
-                    resourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
+                    DresourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
                     break;
             }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Stream DaudioStream = assembly.GetManifestResourceStream(DresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader Dreader = new WaveFileReader(DaudioStream);
+            WaveOutEvent DoutputDevice = new WaveOutEvent();
+            WaveChannel32 DvolumeStream = new WaveChannel32(Dreader);
+            DvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
-
+            DoutputDevice.Init(DvolumeStream);
+            DoutputDevice.Play();
+            });
         }
         void MenuFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 3);
-            string resourceName = "CC6GameProject.Resources.MM Pause Game 1.wav";
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Task.Run(() =>
+            {
+            Random Mrand = new Random();
+            int Minput = Mrand.Next(1, 3);
+            string MresourceName = "CC6GameProject.Resources.MM Pause Game 1.wav";
+            Stream MaudioStream = assembly.GetManifestResourceStream(MresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader Mreader = new WaveFileReader(MaudioStream);
+            WaveOutEvent MoutputDevice = new WaveOutEvent();
+            WaveChannel32 MvolumeStream = new WaveChannel32(Mreader);
+            MvolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
+            MoutputDevice.Init(MvolumeStream);
+            MoutputDevice.Play();
+            });
         }
         void descendFx()
         {
-            Random rand = new Random();
-            int input = rand.Next(1, 7);
-            string resourceName = " ";
-            switch (input)
+            Task.Run(() =>
+            {
+                Random derand = new Random();
+            int deinput = derand.Next(1, 7);
+            string deresourceName = " ";
+            switch (deinput)
             {
                 case 1:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
                     break;
                 case 2:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 2.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 2.wav";
                     break;
                 case 3:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 3.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 3.wav";
                     break;
                 case 4:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 4.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 4.wav";
                     break;
                 case 5:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 5.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 5.wav";
                     break;
                 case 6:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 6.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 6.wav";
                     break;
                 case 7:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 7.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 7.wav";
                     break;
                 default:
-                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
+                    deresourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
                     break;
             }
-            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            Stream deaudioStream = assembly.GetManifestResourceStream(deresourceName);
 
             // Create a WaveStream object from the audio stream
-            WaveFileReader reader = new WaveFileReader(audioStream);
-            WaveOutEvent outputDevice = new WaveOutEvent();
-            WaveChannel32 volumeStream = new WaveChannel32(reader);
-            volumeStream.Volume = 0.5f;
+            WaveFileReader dereader = new WaveFileReader(deaudioStream);
+            WaveOutEvent deoutputDevice = new WaveOutEvent();
+            WaveChannel32 devolumeStream = new WaveChannel32(dereader);
+            devolumeStream.Volume = 0.5f;
 
-            outputDevice.Init(volumeStream);
-            outputDevice.Play();
+            deoutputDevice.Init(devolumeStream);
+            deoutputDevice.Play();
+            });
 
         }
     }
