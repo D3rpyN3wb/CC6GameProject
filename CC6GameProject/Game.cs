@@ -35,7 +35,7 @@ namespace CC6GameProject
         Point playerPos = new Point(-1, -1);
 
         static string currentMessage = "";
-
+        Assembly assembly = Assembly.GetExecutingAssembly();
 
 
         /// <summary>
@@ -65,17 +65,17 @@ namespace CC6GameProject
             }
             //Console.CursorVisible = false;
             Console.OutputEncoding = Constants.enc;
-                Console.Title = "Rogueish Rogue";
-                Console.SetWindowSize(size.X, size.Y + 3);
-                Console.BufferHeight = Console.WindowHeight;
+            Console.Title = "Rogueish Rogue";
+            Console.SetWindowSize(size.X, size.Y + 3);
+            Console.BufferHeight = Console.WindowHeight;
 
-                tiles = new Tile[size.X, size.Y]; // !UNSAFE!
-                scores = new ushort[size.X, size.Y]; // !ALSO UNSAFE!
+            tiles = new Tile[size.X, size.Y]; // !UNSAFE!
+            scores = new ushort[size.X, size.Y]; // !ALSO UNSAFE!
 
-                // inventory stuff
-                invDItems = new InventoryDisplayItem[Constants.invCapacity];
+            // inventory stuff
+            invDItems = new InventoryDisplayItem[Constants.invCapacity];
 
-                ran = new Random();
+            ran = new Random();
 
             game();
 
@@ -84,7 +84,6 @@ namespace CC6GameProject
         // TODO: Make effecienter
         public void PlayBackgroundMusic()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
             Random rand = new Random();
             int input = rand.Next(1, 4);
             string resourceName = " ";
@@ -108,9 +107,10 @@ namespace CC6GameProject
             // Create a WaveOutEvent object and initialize it with the WaveStream
             WaveOutEvent waveOut = new WaveOutEvent();
             waveOut.Init(mp3Reader);
+            waveOut.Volume = 0.3f;
             // Play the music in a loop
             waveOut.Play();
-            
+
         }
         void game()
         {
@@ -122,13 +122,13 @@ namespace CC6GameProject
 
                 setDungeonToEmpty();
 
-                rooms = createDungeons(15, new Room(new Point(4, 19), new Point(5, 15))); 
+                rooms = createDungeons(15, new Room(new Point(4, 19), new Point(5, 15)));
 
                 spawnPlayerInRoom(rooms[ran.Next(0, rooms.Length)], p);
 
                 onPlayerMove(ref p); // make sure everything inits properly
 
-                msg("Welcome, " + p.name + "!"); 
+                msg("Welcome, " + p.name + "!");
                 if (disableFight) p.walkable = false;
 
 
@@ -156,13 +156,13 @@ namespace CC6GameProject
                     switch (key)
                     {
                         case ConsoleKey.Escape: Environment.Exit(0); break;
-                        case ConsoleKey.R: return;
+                        case ConsoleKey.R: descendFx(); return;
                         case ConsoleKey.LeftArrow: toAdd.X--; break;
                         case ConsoleKey.RightArrow: toAdd.X++; break;
                         case ConsoleKey.UpArrow: toAdd.Y--; break;
                         case ConsoleKey.DownArrow: toAdd.Y++; break;
-                        case ConsoleKey.Tab: state = State.Inventory; drawInventory(); continue;
-                        case ConsoleKey.F1: hack = hack.invert(); break; 
+                        case ConsoleKey.Tab: state = State.Inventory; drawInventory(); MenuFx(); continue;
+                        case ConsoleKey.F1: hack = hack.invert(); break;
                         case ConsoleKey.F2:
                             hackLighting = true;
                             for (int x = 0; x < tiles.GetLength(0); x++)
@@ -205,11 +205,12 @@ namespace CC6GameProject
                             }
                             else if (preCopy.tiletype == TileType.Money)
                             {
-                         
+
                                 int money = ((Money)preCopy).money;
                                 string s = money != 1 ? "s" : "";
                                 p.money += money;
                                 msg("You found " + money + " coin" + s + '!');
+                                CoinFx();
                                 preCopy = new Tile(((Pickupable)preCopy).replaceTile);
                             }
                             // TODO: Make available for other items
@@ -219,6 +220,7 @@ namespace CC6GameProject
                                 if (p.addInventoryItem(((Pickupable)preCopy).getInvItem(ref ran)))
                                 {
                                     msg("You found " + p.lastInventoryItem().name);
+                                    ChestFx();
                                     preCopy = new Tile(((Pickupable)preCopy).replaceTile);
                                 }
                                 else msg(Constants.invFullMsg);
@@ -231,7 +233,6 @@ namespace CC6GameProject
                                 Chest c = (Chest)preCopy;
 
                                 int count = c.contents.Length;
-
                                 msg("You explore the chest");
                                 if (count > 0)
                                     for (int i = 0; i < c.contents.Length; i++)
@@ -239,6 +240,7 @@ namespace CC6GameProject
                                         if (p.addInventoryItem(c.contents[i]))
                                         {
                                             msg("You found " + c.contents[i].name);
+                                            ChestFx();
                                             count--;
                                         }
                                         else
@@ -248,7 +250,7 @@ namespace CC6GameProject
                                     }
                                 else
                                     msg("The chest is empty");
-
+                                    
                                 if (count == 0)
                                     c.contents = new InventoryItem[0];
                                 else
@@ -320,13 +322,13 @@ namespace CC6GameProject
                                 drawInventory();
                                 break;
 
-                            case ConsoleKey.Tab: state = State.Default; /*Console.Clear();*/ reDrawDungeon(); continue;
+                            case ConsoleKey.Tab: state = State.Default; /*Console.Clear();*/ reDrawDungeon(); MenuFx(); continue;
                             case ConsoleKey.Escape: Environment.Exit(0); break;
                         }
                     else
                         switch (key)
                         {
-                            case ConsoleKey.Tab: state = State.Default; /*Console.Clear();*/ reDrawDungeon(); continue;
+                            case ConsoleKey.Tab: state = State.Default; /*Console.Clear();*/ reDrawDungeon(); MenuFx(); continue;
                             case ConsoleKey.Escape: Environment.Exit(0); break;
                         }
                 }
@@ -371,7 +373,7 @@ namespace CC6GameProject
             ;
 
             msg(string.Format("{0} {1}", Constants.getPDamageInWords(pdmg, ref ran), c.tiletype));
-
+            HitFx();
             if (c.doDamage(pdmg, ref creature))
             {
                 onDead(ref p, c);
@@ -405,6 +407,7 @@ namespace CC6GameProject
                             if (tiles[p.X, p.Y].tiletype == TileType.Player)
                             {
                                 attackPlayer(ref tiles[x, y]);
+                                HitFx();
                             }
                             else if (!(tiles[p.X, p.Y] is Creature))
                             {
@@ -658,6 +661,7 @@ namespace CC6GameProject
             p.xp += amnt;
             while (p.xp >= p.reqXp)
             {
+                LevelFx();
                 p.levelUp();
                 msg("You are now level " + p.level + '!');
             }
@@ -681,6 +685,7 @@ namespace CC6GameProject
         {
             msg("You have defeated the " + c.tiletype + "!");
             giveXp(ref p, c.getXp(ref ran));
+            deathFx();
         }
 
         void onPlayerDead()
@@ -703,25 +708,269 @@ namespace CC6GameProject
             Player p = (Player)tiles[playerPos.X, playerPos.Y];
             msg("GAME OVER: R.I.P. " + ((Player)tiles[playerPos.X, playerPos.Y]).name + '!' + " TOTAL SCORE: " + p.money);
             draw();
-            wrongKey:
+        wrongKey:
             Console.WriteLine("Want to try again? (y/n)");
-                ConsoleKey choice = Console.ReadKey().Key;
-                if (choice == ConsoleKey.Y)
-                {
+            ConsoleKey choice = Console.ReadKey().Key;
+            if (choice == ConsoleKey.Y)
+            {
                 GameOver.Stop();
                 Game g = new Game(new Point(200, 40));
-                 }
-                else if (choice == ConsoleKey.N)
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Console.WriteLine("WRONG KEY");
-                    goto wrongKey;
+            }
+            else if (choice == ConsoleKey.N)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.WriteLine("WRONG KEY");
+                goto wrongKey;
 
-                }
+            }
             #endregion
+        }
+        void HitFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Bump 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Bump 3.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void CoinFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 4);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Coin 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Coin 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Coin 3.wav";
+                    break;
+                case 4:
+                    resourceName = "CC6GameProject.Resources.MM Coin 4.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void ScrollFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Bump 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Bump 3.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Bump 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void LevelFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = "CC6GameProject.Resources.MM 1UP 1.wav";
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void ChestFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Power Up 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Power Up 3.wav";
+                    break;
+                case 4:
+                    resourceName = "CC6GameProject.Resources.MM Power Up 4.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Power Up 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void deathFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Boss Fall 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Boss Fall 3.wav";
+                    break;
+                case 4:
+                    resourceName = "CC6GameProject.Resources.MM Boss Fall 4.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Boss Fall 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
+        }
+        void MenuFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 3);
+            string resourceName = "CC6GameProject.Resources.MM Pause Game 1.wav";
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+        }
+        void descendFx()
+        {
+            Random rand = new Random();
+            int input = rand.Next(1, 7);
+            string resourceName = " ";
+            switch (input)
+            {
+                case 1:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
+                    break;
+                case 2:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 2.wav";
+                    break;
+                case 3:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 3.wav";
+                    break;
+                case 4:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 4.wav";
+                    break;
+                case 5:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 5.wav";
+                    break;
+                case 6:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 6.wav";
+                    break;
+                case 7:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 7.wav";
+                    break;
+                default:
+                    resourceName = "CC6GameProject.Resources.MM Power Down & Pipe 1.wav";
+                    break;
+            }
+            Stream audioStream = assembly.GetManifestResourceStream(resourceName);
+
+            // Create a WaveStream object from the audio stream
+            WaveFileReader reader = new WaveFileReader(audioStream);
+            WaveOutEvent outputDevice = new WaveOutEvent();
+            WaveChannel32 volumeStream = new WaveChannel32(reader);
+            volumeStream.Volume = 0.5f;
+
+            outputDevice.Init(volumeStream);
+            outputDevice.Play();
+
         }
     }
 }

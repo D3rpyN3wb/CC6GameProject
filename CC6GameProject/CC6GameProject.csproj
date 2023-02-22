@@ -170,6 +170,94 @@
     <EmbeddedResource Include="Resources\GameMusic.mp3">
       <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM 1UP 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Boss Fall 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Bump 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Coin 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Pause Game 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Brick Smash 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Bump 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Bump 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Coin 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Coin 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Coin 4.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Up 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Up 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Up 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Up 4.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Dying 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Dying 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Dying 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Dying 4.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 1.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 4.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 5.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 6.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Power Down &amp; Pipe 7.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <None Include="Resources\MM Bridge Collapse 1.wav" />
+    <EmbeddedResource Include="Resources\MM Boss Fall 2.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Boss Fall 3.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MM Boss Fall 4.wav">
+      <CustomToolNamespace>CC6GameProject</CustomToolNamespace>
+    </EmbeddedResource>
     <Content Include="video-game-play-pad-boy-gameboy-nintendo_108539.ico" />
   </ItemGroup>
   <ItemGroup>
